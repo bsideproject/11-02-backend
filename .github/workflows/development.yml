@@ -38,7 +38,7 @@ jobs:
   deploy:
     needs: build
     name: Deploy
-    runs-on: [ self-hosted, label-go ]
+    runs-on: [ self-hosted, bside-11-02 ]
     steps:
       - name: Login to DockerHub
         uses: docker/login-action@v1
