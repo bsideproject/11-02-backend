@@ -1,16 +1,16 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test;MODE=MYSQL;
+    url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
-    username: sa
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-
-
+  h2:
+    console:
+      enabled: true
 
 # HS512 ????? ??? ??? ??? 512bit, ? 64byte ??? secret key? ???? ??.
 # Secret ?? ?? ???? Base64 ? ???? ? ??
