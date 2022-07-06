@@ -35,6 +35,26 @@ jobs:
           docker tag ${{secrets.DOCKER_REPO}}:latest ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:latest
           docker push ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}
 
+      # notification slack
+      - uses: ravsamhq/notify-slack-action@v1
+        if: ${{ failure() }}
+        with:
+          notification_title: '*execute ${{ github.job }} by ${{ github.actor }}*'
+          notify_when: 'failure,warnings'
+          icon_success: ':white_check_mark:'
+          message_format: |-
+            *workflow*: {workflow}
+            *status*: {emoji} {status_message} 
+            *branch*: <{repo_url}|{branch}>
+            *commit*: <{commit_url}|{commit_sha}>
+            *commit message*: ${{ github.event.head_commit.message }}
+          status: ${{ job.status }}
+          mention_users: 'U03L1TSLD2P,U03KTKP91KP'
+          mention_users_when: 'failure'
+          footer: '<{run_url}|View Github Actions>'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   deploy:
     needs: build
     name: Deploy
@@ -57,3 +77,21 @@ jobs:
           docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}
           docker run -itd -p 80:8080 --name 11-02-backend ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:latest
 
+      # notification slack
+      - uses: ravsamhq/notify-slack-action@v1
+        if: ${{ failure() }}
+        with:
+          notification_title: '*execute ${{ github.job }} by ${{ github.actor }}*'
+          icon_success: ':white_check_mark:'
+          message_format: |-
+            *workflow*: {workflow}
+            *status*: {emoji} {status_message} 
+            *branch*: <{repo_url}|{branch}>
+            *commit*: <{commit_url}|{commit_sha}>
+            *commit message*: ${{ github.event.head_commit.message }}
+          status: ${{ job.status }}
+          mention_users: 'U03L1TSLD2P,U03KTKP91KP'
+          mention_users_when: 'failure'
+          footer: '<{run_url}|View Github Actions>'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
