@@ -90,6 +90,7 @@ class AuthServiceImpl(
 
         // 6. 저장소 정보 업데이트
         val newRefreshToken: RefreshToken = RefreshToken().apply {
+            this.key = refreshToken.key!!
             this.value = tokenDto.refreshToken!!
         }
         refreshTokenRepository.save(newRefreshToken)
