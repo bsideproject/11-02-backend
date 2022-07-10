@@ -1,4 +1,4 @@
-package com.bside.dto
+package com.bside.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity

@@ -3,7 +3,7 @@ package com.bside.config
 import com.bside.config.jwt.JwtAccessDeniedHandler
 import com.bside.config.jwt.JwtAuthenticationEntryPoint
 import com.bside.config.jwt.TokenProvider
-import com.bside.entity.type.Authority
+import com.bside.common.type.Authority
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
