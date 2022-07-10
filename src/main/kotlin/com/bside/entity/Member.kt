@@ -1,6 +1,6 @@
 package com.bside.entity
 
-import com.bside.entity.type.Authority
+import com.bside.common.type.Authority
 import javax.persistence.*
 
 

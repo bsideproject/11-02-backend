@@ -1,6 +1,6 @@
 package com.bside.repository
 
-import com.bside.dto.RefreshToken
+import com.bside.entity.RefreshToken
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
