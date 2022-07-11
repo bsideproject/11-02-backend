@@ -1,4 +1,4 @@
-package com.bside.entity.type
+package com.bside.common.type
 
 
 /**
