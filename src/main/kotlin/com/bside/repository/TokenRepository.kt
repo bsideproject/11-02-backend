@@ -1,15 +1,13 @@
 package com.bside.repository
 
 import com.bside.entity.RefreshToken
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
 
+import org.springframework.data.mongodb.repository.MongoRepository
 
 /**
  * name : TokenRepository
  * author : jisun.noh
  */
-@Repository
-interface TokenRepository : JpaRepository<RefreshToken, Long> {
+interface TokenRepository : MongoRepository<RefreshToken, String> {
     fun findByKey(key: String): RefreshToken
 }

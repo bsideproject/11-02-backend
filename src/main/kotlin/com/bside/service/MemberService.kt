@@ -1,7 +1,8 @@
 package com.bside.service
 
 import com.bside.dto.MemberResponseDto
-import com.bside.repository.MemberReposiroty
+import com.bside.repository.MemberRepository
+
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class MemberService(
-    val userRepository: MemberReposiroty
+    val memberRepository: MemberRepository
 ) {
     fun getMemberInfo(email: String): MemberResponseDto {
         return MemberResponseDto().apply {
-            this.email = userRepository.findByEmail(email).email
+            this.email = memberRepository.findByEmail(email).email
         }
     }
 }

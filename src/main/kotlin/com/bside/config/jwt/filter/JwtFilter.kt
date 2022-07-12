@@ -1,10 +1,12 @@
-package com.bside.config.filter
+package com.bside.config.jwt.filter
 
 import com.bside.config.jwt.TokenProvider
+
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.util.StringUtils
 import org.springframework.web.filter.OncePerRequestFilter
+
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
