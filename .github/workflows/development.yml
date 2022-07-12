@@ -20,6 +20,19 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # before build, add application-dev.yml
+      - name: make application-dev.yml
+        if: contains(github.ref, 'develop')
+        run: |
+          cd ./src/main/resources 
+          
+          touch ./application-dev.yml 
+          
+          echo "${{ secrets.DEV_YML }}" > ./application-dev.yml
+        shell: bash
+
+      #TODO: add application-pred.yml
+
       - name: Run build
         run: ./gradlew clean build -x test
 
@@ -29,11 +42,15 @@ jobs:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
 
-      - name: Docker build & push
+      # dev
+      - name: Docker build & push & dev
+        if: contains(github.ref, 'develop')
         run: |
-          docker build -t ${{secrets.DOCKER_REPO}} .
-          docker tag ${{secrets.DOCKER_REPO}}:latest ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:latest
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}
+          docker build -f Dockerfile-dev -t ${{secrets.DOCKER_REPO}} .
+          docker tag ${{secrets.DOCKER_REPO}}:latest ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:dev
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:dev
+
+      #TODO: real docker build & push & dev
 
       # notification slack
       - uses: ravsamhq/notify-slack-action@v1
@@ -66,6 +83,7 @@ jobs:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
       - name: Run container
+        if: contains(github.ref, 'develop')
         run: |
           CONTAINER_LIST=$(docker ps -q -a)
           if [ -z "$CONTAINER_LIST" ];
@@ -75,7 +93,9 @@ jobs:
             docker rm -f $(docker ps -q -a)
           fi
           docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}
-          docker run -itd -p 80:8080 --name 11-02-backend ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:latest
+          docker run -itd -p 80:8080 --name 11-02-backend ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:dev
+
+      #TODO: real deploy
 
       # notification slack
       - uses: ravsamhq/notify-slack-action@v1
