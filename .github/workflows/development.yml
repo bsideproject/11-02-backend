@@ -22,7 +22,7 @@ jobs:
 
       # before build, add application-dev.yml
       - name: make application-dev.yml
-        if: contains(github.ref, 'develop')
+        if: github.event.pull_request.base.ref == 'develop'
         run: |
           cd ./src/main/resources 
           
@@ -44,7 +44,7 @@ jobs:
 
       # dev
       - name: Docker build & push & dev
-        if: contains(github.ref, 'develop')
+        if: github.event.pull_request.base.ref == 'develop'
         run: |
           docker build -f Dockerfile-dev -t ${{secrets.DOCKER_REPO}} .
           docker tag ${{secrets.DOCKER_REPO}}:latest ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:dev
@@ -83,7 +83,7 @@ jobs:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
       - name: Run container
-        if: contains(github.ref, 'develop')
+        if: github.event.pull_request.base.ref == 'develop'
         run: |
           CONTAINER_LIST=$(docker ps -q -a)
           if [ -z "$CONTAINER_LIST" ];
