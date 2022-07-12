@@ -31,7 +31,7 @@ jobs:
           echo "${{ secrets.DEV_YML }}" > ./application-dev.yml
         shell: bash
 
-      #TODO: add application-pred.yml
+      #TODO: add application-prod.yml
 
       - name: Run build
         run: ./gradlew clean build -x test
@@ -92,7 +92,7 @@ jobs:
           else
             docker rm -f $(docker ps -q -a)
           fi
-          docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}
+          docker pull ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:dev
           docker run -itd -p 80:8080 --name 11-02-backend ${{secrets.DOCKERHUB_USERNAME}}/${{secrets.DOCKER_REPO}}:dev
 
       #TODO: real deploy
