@@ -1,4 +1,4 @@
-package com.bside.config.jwt.filter
+package com.bside.config.filter
 
 import com.bside.config.jwt.TokenProvider
 

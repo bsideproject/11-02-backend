@@ -1,7 +1,7 @@
 package com.bside.config
 
 import com.bside.config.jwt.TokenProvider
-import com.bside.config.jwt.filter.JwtFilter
+import com.bside.config.filter.JwtFilter
 
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
