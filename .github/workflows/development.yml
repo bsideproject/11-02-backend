@@ -24,7 +24,7 @@ jobs:
         run: echo ${{github}}
       # before build, add application-dev.yml
       - name: make application-dev.yml
-        if: contains(github.ref, 'develop')
+        if: contains(github.head_ref, 'develop')
         run: |
           cd ./src/main/resources 
           
