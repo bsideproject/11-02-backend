@@ -1,6 +1,7 @@
 package com.bside.config.jwt
 
 import com.bside.dto.TokenDto
+
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -8,6 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
+
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -17,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
+
 import java.util.*
 import java.util.stream.Collectors
 
@@ -25,7 +28,7 @@ import java.util.stream.Collectors
  * author : jisun.noh
  */
 @Component
-class TokenProvider {
+class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
 
     private val log = LoggerFactory.getLogger(TokenProvider::class.java)
 
@@ -35,7 +38,6 @@ class TokenProvider {
     private val REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7 // 7day
 
     //Secret 값은 특정 문자열을 Base64 로 인코딩한 값 사용
-    private val secretKey: String = "YnNpZGUtcHJvamVjdC1iYWNrZW5kLXByb2plY3QtMTEtMnRlYW0tZmluYWwtZmlnaHRpbmc"
     private val key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
 
     fun generateTokenDto(authentication: Authentication): TokenDto {

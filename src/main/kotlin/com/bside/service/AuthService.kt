@@ -3,15 +3,17 @@ package com.bside.service
 import com.bside.dto.*
 import com.bside.entity.Member
 import com.bside.config.jwt.TokenProvider
-import com.bside.repository.MemberReposiroty
 import com.bside.repository.TokenRepository
 import com.bside.common.type.Authority
 import com.bside.entity.RefreshToken
+import com.bside.repository.MemberRepository
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+
 import java.lang.RuntimeException
 
 /**
@@ -20,11 +22,11 @@ import java.lang.RuntimeException
  */
 @Service
 class AuthService(
-    val memberRepository: MemberReposiroty,
-    val refreshTokenRepository: TokenRepository,
-    val passwordEncoder: PasswordEncoder,
-    val tokenProvider: TokenProvider,
-    val authenticationManagerBuilder: AuthenticationManagerBuilder
+        val memberRepository: MemberRepository,
+        val refreshTokenRepository: TokenRepository,
+        val passwordEncoder: PasswordEncoder,
+        val tokenProvider: TokenProvider,
+        val authenticationManagerBuilder: AuthenticationManagerBuilder
 ) {
 
     fun signup(memberRequestDto: MemberRequestDto) {
@@ -32,36 +34,40 @@ class AuthService(
             throw RuntimeException("이미 가입되어 있는 유저입니다")
         }
 
-        val member: Member = Member().apply {
-            this.email = memberRequestDto.email
-            this.password = passwordEncoder.encode(memberRequestDto.password)
-            this.authority = Authority.ROLE_USER
-        }
-
-        memberRepository.save(member)
+        memberRepository.save(
+                Member(
+                        email = memberRequestDto.email,
+                        password = passwordEncoder.encode(memberRequestDto.password),
+                        authority = Authority.ROLE_USER
+                )
+        )
     }
 
-    fun login(memberRequestDto: MemberRequestDto): TokenDto {
+    fun login(memberRequestDto: MemberRequestDto): TokenDto? {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
-        val authenticationToken: UsernamePasswordAuthenticationToken = memberRequestDto.toAuthentication()!!
+        try {
+            val authenticationToken: UsernamePasswordAuthenticationToken = memberRequestDto.toAuthentication()!!
 
-        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
-        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
-        val authentication: Authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken)
+            // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+            //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+            val authentication: Authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken)
 
-        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+            // 3. 인증 정보를 기반으로 JWT 토큰 생성
 
-        val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication)
+            val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication)
 
-        // 4. RefreshToken 저장
-        val refreshToken: RefreshToken = RefreshToken().apply {
-            this.key = authentication.name
-            this.value = tokenDto.refreshToken!!
+            // 4. RefreshToken 저장
+            refreshTokenRepository.save(
+                    RefreshToken(
+                            key = authentication.name,
+                            value = tokenDto.refreshToken!!
+                    )
+            )
+            // 5. 토큰 발급
+            return tokenDto
+        } catch (e: Exception) {
+            throw RuntimeException("internal server error")
         }
-        refreshTokenRepository.save(refreshToken)
-
-        // 5. 토큰 발급
-        return tokenDto
     }
 
     fun reissue(tokenRequestDto: TokenRequestDto): TokenDto {
@@ -89,10 +95,10 @@ class AuthService(
         val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication)
 
         // 6. 저장소 정보 업데이트
-        val newRefreshToken: RefreshToken = RefreshToken().apply {
-            this.key = refreshToken.key!!
-            this.value = tokenDto.refreshToken!!
-        }
+        val newRefreshToken = RefreshToken(
+                key = refreshToken.key!!,
+                value = tokenDto.refreshToken!!
+        )
         refreshTokenRepository.save(newRefreshToken)
 
         // 토큰 발급

@@ -1,7 +1,9 @@
 package com.bside.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
+import org.bson.types.ObjectId
+import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Field
+
 import javax.persistence.Id
 
 
@@ -9,12 +11,13 @@ import javax.persistence.Id
  * name : RefreshToken
  * author : jisun.noh
  */
-@Entity
-class RefreshToken {
-    @Id
-    @Column(name = "rt_key")
-    var key: String = ""
-
-    @Column(name = "rt_value")
-    var value: String = ""
-}
+@Document
+data class RefreshToken(
+        @Id
+        @Field(name = "_id")
+        val id: ObjectId = ObjectId.get(),
+        @Field(name = "rt_key")
+        val key: String = "",
+        @Field(name = "rt_value")
+        val value: String = "",
+)

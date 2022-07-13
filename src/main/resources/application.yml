@@ -1,18 +1,5 @@
-spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-  h2:
-    console:
-      enabled: true
-
-# HS512 ????? ??? ??? ??? 512bit, ? 64byte ??? secret key? ???? ??.
-# Secret ?? ?? ???? Base64 ? ???? ? ??
-jwt:
-  secret: YnNpZGUtcHJvamVjdC1iYWNrZW5kLXByb2plY3QtMTEtMnRlYW0tZmluYWwtZmlnaHRpbmc
+###############################
+#           Common
+###############################
+server:
+  port: 8080

@@ -1,7 +1,8 @@
 package com.bside.service
 
 import com.bside.entity.Member
-import com.bside.repository.MemberReposiroty
+import com.bside.repository.MemberRepository
+
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
+
 import java.util.*
 import javax.transaction.Transactional
 
@@ -19,7 +21,7 @@ import javax.transaction.Transactional
 @Service
 @Transactional
 class CustomUserDetailsService(
-    val memberRepository: MemberReposiroty
+    val memberRepository: MemberRepository
 ): UserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
@@ -36,7 +38,7 @@ class CustomUserDetailsService(
     private fun createUserDetails(member: Member): UserDetails? {
         val grantedAuthority: GrantedAuthority = SimpleGrantedAuthority(member.authority.toString())
         return User(
-            java.lang.String.valueOf(member.id),
+            member.id.toString(),
             member.password,
             Collections.singleton(grantedAuthority)
         )
