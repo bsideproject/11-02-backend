@@ -66,8 +66,7 @@ class AuthService(
             // 5. 토큰 발급
             return tokenDto
         } catch (e: Exception) {
-            println(e)
-            return null
+            throw RuntimeException("internal server error")
         }
     }
 
