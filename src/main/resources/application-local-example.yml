@@ -7,5 +7,9 @@
 #    mongodb:
 #      url:
 #
+#
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
 #jwt:
 #  secret:
