@@ -29,9 +29,15 @@ dependencies {
 	// mongodb
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 
+	//jwt
 	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
+	//swagger
+	implementation ("io.springfox:springfox-boot-starter:3.0.0")
+
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
 }

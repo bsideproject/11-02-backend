@@ -46,10 +46,7 @@ class SecurityConfig(
         return source
     }
 
-    override fun configure(web: WebSecurity?) {
-        web!!.ignoring()
-            .antMatchers("/resource")
-    }
+
 
     override fun configure(http: HttpSecurity?) {
         //csrf 설정
@@ -68,6 +65,11 @@ class SecurityConfig(
             .and()
             .authorizeRequests()
             .antMatchers("/auth/**").permitAll()
+            .antMatchers("/v3/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui/**").permitAll()
             .antMatchers("/admin/**").hasAnyAuthority(Authority.ROLE_ADMIN.name)
             .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
             //JwtConfig 등록
