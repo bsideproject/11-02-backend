@@ -2,5 +2,7 @@ FROM openjdk:11
 
 COPY build/libs/bside-0.0.1-SNAPSHOT.jar app.jar
 
+RUN mkdir -p /home1/irteam/logs /home1/irteam/logs/Archive
+
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "app.jar"]
 

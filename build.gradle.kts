@@ -37,9 +37,14 @@ dependencies {
 	//swagger
 	implementation ("io.springfox:springfox-boot-starter:3.0.0")
 
+	//logback
+	implementation("ch.qos.logback:logback-core:1.2.5")
+	implementation("ch.qos.logback:logback-classic:1.2.5")
+
+	//logback-slack
+	implementation("com.github.maricn:logback-slack-appender:1.4.0")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-
 }
 
 tasks.withType<KotlinCompile> {

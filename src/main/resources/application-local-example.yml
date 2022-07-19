@@ -13,3 +13,8 @@
 #      matching-strategy: ant_path_matcher
 #jwt:
 #  secret:
+#
+#logging:
+#  slack:
+#    webhook-uri:
+#  config:
