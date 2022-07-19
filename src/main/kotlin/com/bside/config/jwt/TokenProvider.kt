@@ -28,7 +28,7 @@ import java.util.stream.Collectors
  * author : jisun.noh
  */
 @Component
-class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
+class TokenProvider(jwtProperties: JwtProperties) {
 
     private val log = LoggerFactory.getLogger(TokenProvider::class.java)
 
@@ -38,7 +38,7 @@ class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
     private val REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7 // 7day
 
     //Secret 값은 특정 문자열을 Base64 로 인코딩한 값 사용
-    private val key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
+    private val key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtProperties.secret))
 
     fun generateTokenDto(authentication: Authentication): TokenDto {
         //권한들 가져오기
