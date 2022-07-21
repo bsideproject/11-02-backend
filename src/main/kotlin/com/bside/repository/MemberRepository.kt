@@ -1,6 +1,7 @@
 package com.bside.repository
 
 import com.bside.entity.Member
+import org.bson.types.ObjectId
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
@@ -32,7 +33,7 @@ class  MemberRepositoryImpl : MemberRepositoryCustom {
  * author : jisun.noh
  */
 interface MemberRepository : MongoRepository<Member, String>, MemberRepositoryCustom {
-    fun findByEmail(email: String): Member
+    fun findByEmail(email: String): Member?
     fun existsByEmail(email: String): Boolean
 
 }

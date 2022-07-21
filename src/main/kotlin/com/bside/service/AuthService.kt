@@ -1,10 +1,13 @@
 package com.bside.service
 
-import com.bside.dto.*
 import com.bside.entity.Member
 import com.bside.config.jwt.TokenProvider
 import com.bside.repository.TokenRepository
 import com.bside.common.type.Authority
+import com.bside.common.type.ProviderType
+import com.bside.dto.request.MemberRequestDto
+import com.bside.dto.request.TokenRequestDto
+import com.bside.dto.response.TokenDto
 import com.bside.entity.RefreshToken
 import com.bside.repository.MemberRepository
 
@@ -38,7 +41,8 @@ class AuthService(
                 Member(
                         email = memberRequestDto.email,
                         password = passwordEncoder.encode(memberRequestDto.password),
-                        authority = Authority.ROLE_USER
+                        authority = Authority.ROLE_USER,
+                        providerType = ProviderType.NAVER //FIXME 로컬 로그인 없애야 하기 때문에 임시 naver로 생성
                 )
         )
     }
@@ -54,7 +58,7 @@ class AuthService(
 
             // 3. 인증 정보를 기반으로 JWT 토큰 생성
 
-            val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication)
+            val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication, ProviderType.NAVER)
 
             // 4. RefreshToken 저장
             refreshTokenRepository.save(
@@ -92,7 +96,7 @@ class AuthService(
         }
 
         // 5. 새로운 토큰 생성
-        val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication)
+        val tokenDto: TokenDto = tokenProvider.generateTokenDto(authentication, ProviderType.NAVER)
 
         // 6. 저장소 정보 업데이트
         val newRefreshToken = RefreshToken(

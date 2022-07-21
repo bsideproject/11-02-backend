@@ -1,6 +1,7 @@
 package com.bside.config.jwt
 
-import com.bside.dto.TokenDto
+import com.bside.common.type.ProviderType
+import com.bside.dto.response.TokenDto
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
@@ -32,15 +33,17 @@ class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
 
     private val log = LoggerFactory.getLogger(TokenProvider::class.java)
 
-    private val AUTHORITIES_KEY = "auth"
-    private val BEARER_TYPE = "bearer"
-    private val ACCESS_TOKEM_EXPIRE_TIME = 1000 * 60 * 10 // 30 min
-    private val REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7 // 7day
+    companion object {
+        val AUTHORITIES_KEY = "auth"
+        val BEARER_TYPE = "bearer"
+        val ACCESS_TOKEM_EXPIRE_TIME = 1000 * 60 * 10 // 30 min
+        val REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7 // 7day
+    }
 
     //Secret 값은 특정 문자열을 Base64 로 인코딩한 값 사용
     private val key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
 
-    fun generateTokenDto(authentication: Authentication): TokenDto {
+    fun generateTokenDto(authentication: Authentication, providerType: ProviderType): TokenDto {
         //권한들 가져오기
         val authorities = authentication.authorities.stream()
             .map { obj: GrantedAuthority -> obj.authority }
@@ -68,6 +71,7 @@ class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
             this.accessToken = accessToken
             this.accessTokenExpiresIn = accessTokenExpiredsIn.time
             this.refreshToken = refreshToken
+            this.providerType = providerType
         }
     }
 

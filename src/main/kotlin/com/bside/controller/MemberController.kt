@@ -1,6 +1,6 @@
 package com.bside.controller
 
-import com.bside.dto.MemberResponseDto
+import com.bside.dto.response.MemberResponseDto
 import com.bside.service.MemberService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

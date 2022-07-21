@@ -1,8 +1,8 @@
 package com.bside.controller
 
-import com.bside.dto.MemberRequestDto
-import com.bside.dto.TokenDto
-import com.bside.dto.TokenRequestDto
+import com.bside.dto.request.MemberRequestDto
+import com.bside.dto.response.TokenDto
+import com.bside.dto.request.TokenRequestDto
 import com.bside.service.AuthService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
