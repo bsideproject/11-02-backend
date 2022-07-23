@@ -4,12 +4,11 @@ import com.bside.common.type.Authority
 import com.bside.config.jwt.JwtAccessDeniedHandler
 import com.bside.config.jwt.JwtAuthenticationEntryPoint
 import com.bside.config.jwt.TokenProvider
-import com.bside.config.oauth.AppProperties
 import com.bside.config.oauth.handler.OAuth2AuthenticationFailureHandler
 import com.bside.config.oauth.handler.OAuth2AuthenticationSuccessHandler
-import com.bside.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
+import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
 import com.bside.repository.TokenRepository
-import com.bside.service.CustomOAuth2UserService
+import com.bside.config.oauth.service.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
@@ -36,7 +35,6 @@ class SecurityConfig(
     val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
     val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
     val oAuth2UserService: CustomOAuth2UserService,
-    val appProperties: AppProperties,
     val tokenRepository: TokenRepository
 ) : WebSecurityConfigurerAdapter() {
     @Bean
@@ -58,10 +56,8 @@ class SecurityConfig(
     }
 
     override fun configure(web: WebSecurity?) {
-        web!!.ignoring().mvcMatchers("/favicon.ico")
+        web!!.ignoring().antMatchers("/favicon.ico")
     }
-
-
 
     override fun configure(http: HttpSecurity?) {
         //csrf 설정
@@ -92,8 +88,8 @@ class SecurityConfig(
             .and()
                 .oauth2Login()
                 .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+                .baseUri("/oauth2/authorization") // oauth 로그인 호출 uri
+                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()) // 요청 정보 저장 repository
             .and()
                 .redirectionEndpoint()
                 .baseUri("/*/oauth2/code/*")
@@ -116,7 +112,6 @@ class SecurityConfig(
         return OAuth2AuthenticationSuccessHandler(
             tokenProvider,
             tokenRepository,
-            appProperties,
             oAuth2AuthorizationRequestBasedOnCookieRepository()
         )
     }

@@ -37,7 +37,7 @@ class CookieUtil {
 
         fun deleteCookie(request: HttpServletRequest, response: HttpServletResponse, name: String) {
             val cookies = request.cookies
-            if (cookies != null && cookies.size > 0) {
+            if (cookies != null && cookies.isNotEmpty()) {
                 for (cookie in cookies) {
                     if (name == cookie.name) {
                         cookie.value = ""

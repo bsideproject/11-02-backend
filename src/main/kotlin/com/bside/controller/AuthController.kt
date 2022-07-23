@@ -1,7 +1,7 @@
 package com.bside.controller
 
 import com.bside.dto.request.MemberRequestDto
-import com.bside.dto.response.TokenDto
+import com.bside.dto.response.TokenResponseDto
 import com.bside.dto.request.TokenRequestDto
 import com.bside.service.AuthService
 import org.springframework.http.ResponseEntity
@@ -25,12 +25,12 @@ class AuthController(val authService: AuthService) {
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody memberRequestDto: MemberRequestDto?): ResponseEntity<TokenDto?>? {
+    fun login(@RequestBody memberRequestDto: MemberRequestDto?): ResponseEntity<TokenResponseDto?>? {
         return ResponseEntity.ok(authService.login(memberRequestDto!!))
     }
 
     @PostMapping("/reissue")
-    fun reissue(@RequestBody tokenRequestDto: TokenRequestDto?): ResponseEntity<TokenDto?>? {
+    fun reissue(@RequestBody tokenRequestDto: TokenRequestDto?): ResponseEntity<TokenResponseDto?>? {
         return ResponseEntity.ok(authService.reissue(tokenRequestDto!!))
     }
 }
