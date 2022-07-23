@@ -1,7 +1,11 @@
 package com.bside.config.jwt
 
+
 import com.bside.common.type.ProviderType
 import com.bside.dto.response.TokenResponseDto
+import com.bside.dto.TokenDto
+import com.bside.util.logger
+
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
@@ -11,7 +15,6 @@ import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -31,7 +34,7 @@ import java.util.stream.Collectors
 @Component
 class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
 
-    private val log = LoggerFactory.getLogger(TokenProvider::class.java)
+    private val logger by logger()
 
     companion object {
         val AUTHORITIES_KEY = "auth"
@@ -102,13 +105,13 @@ class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token)
             return true
         } catch (e: SecurityException) {
-            log.info("잘못된 JWT 서명입니다.")
+            logger.info("잘못된 JWT 서명입니다.")
         } catch (e: ExpiredJwtException) {
-            log.info("만료된 JWT 토큰입니다.")
+            logger.info("만료된 JWT 토큰입니다.")
         } catch (e: UnsupportedJwtException) {
-            log.info("지원되지 않는 JWT 토큰입니다.")
+            logger.info("지원되지 않는 JWT 토큰입니다.")
         } catch (e: IllegalArgumentException) {
-            log.info("JWT 토큰이 잘못되었습니다.")
+            logger.info("JWT 토큰이 잘못되었습니다.")
         }
         return false
     }
