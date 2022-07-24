@@ -77,11 +77,7 @@ class SecurityConfig(
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/login/**").permitAll() // oauth 로그인 test용 페이지 이동용 임시 허용
-                .antMatchers("/v3/api-docs",
-                    "/configuration/ui",
-                    "/swagger-resources/**",
-                    "/configuration/security",
-                    "/swagger-ui/**").permitAll()
+                .antMatchers(*swaggerWhiteList()).permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Authority.ROLE_ADMIN.name)
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
             //OAUTH 설정
@@ -124,6 +120,12 @@ class SecurityConfig(
     fun oAuth2AuthorizationRequestBasedOnCookieRepository(): OAuth2AuthorizationRequestBasedOnCookieRepository {
         return OAuth2AuthorizationRequestBasedOnCookieRepository()
     }
+
+    fun swaggerWhiteList(): Array<String> = arrayOf("/v3/api-docs",
+        "/configuration/ui",
+        "/swagger-resources/**",
+        "/configuration/security",
+        "/swagger-ui/**")
 
 
 }
