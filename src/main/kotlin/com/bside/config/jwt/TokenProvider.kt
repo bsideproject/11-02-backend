@@ -3,7 +3,6 @@ package com.bside.config.jwt
 
 import com.bside.common.type.ProviderType
 import com.bside.dto.response.TokenResponseDto
-import com.bside.dto.TokenDto
 import com.bside.util.logger
 
 
