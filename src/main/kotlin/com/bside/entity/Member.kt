@@ -2,6 +2,7 @@ package com.bside.entity
 
 import com.bside.common.type.Authority
 import com.bside.common.type.ProviderType
+import com.bside.config.oauth.OAuth2UserInfo
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -25,5 +26,14 @@ data class Member(
         val authority: Authority = Authority.ROLE_USER,
         val providerType: ProviderType,
         val createdDate: LocalDateTime = LocalDateTime.now(),
-        val modifiedDate: LocalDateTime = LocalDateTime.now()
-)
+        var modifiedDate: LocalDateTime = LocalDateTime.now()
+) {
+        constructor(userInfo: OAuth2UserInfo, providerType: ProviderType) : this(
+                email = userInfo.email!!,
+                name = userInfo.name!!,
+                authority = Authority.ROLE_USER,
+                providerType = providerType,
+                createdDate = LocalDateTime.now()
+        )
+
+}

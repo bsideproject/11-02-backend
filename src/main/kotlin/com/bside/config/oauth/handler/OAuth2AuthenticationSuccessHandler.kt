@@ -1,6 +1,6 @@
 package com.bside.config.oauth.handler
 
-import com.bside.common.CookieUtil
+import com.bside.common.util.CookieUtil
 import com.bside.common.type.ProviderType
 import com.bside.config.jwt.TokenProvider
 import com.bside.dto.response.TokenResponseDto

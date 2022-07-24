@@ -50,29 +50,18 @@ class CustomOAuth2UserService(
                             " account. Please use your " + savedUser.providerType + " account to login."
                 )
             }
-            updateUser(savedUser, userInfo)
+            if (userInfo.name != null) {
+                savedUser.apply {
+                    this.name = userInfo.name ?: ""
+                    this.modifiedDate = LocalDateTime.now()
+                }
+            }
         } else {
-            savedUser = createUser(userInfo, providerType)
+            savedUser = Member(userInfo, providerType)
         }
+        memberRepository.save(savedUser)
         return UserPrincipal.create(savedUser, user.attributes)
     }
 
-    private fun createUser(userInfo: OAuth2UserInfo, providerType: ProviderType): Member {
-        val now = LocalDateTime.now()
-        val member = Member(
-            email = userInfo.email!!,
-            name = userInfo.name!!,
-            authority = Authority.ROLE_USER,
-            providerType = providerType,
-            createdDate = now
-        )
-        return memberRepository.save(member)
-    }
 
-    private fun updateUser(member: Member, userInfo: OAuth2UserInfo): Member {
-        if (userInfo.name != null) {
-            member.name = userInfo.name!!
-        }
-        return member
-    }
 }

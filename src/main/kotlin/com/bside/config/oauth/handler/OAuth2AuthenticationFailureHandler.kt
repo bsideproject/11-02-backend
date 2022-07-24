@@ -1,6 +1,6 @@
 package com.bside.config.oauth.handler
 
-import com.bside.common.CookieUtil
+import com.bside.common.util.CookieUtil
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.REDIRECT_URI_PARAM_COOKIE_NAME
 import org.springframework.security.core.AuthenticationException

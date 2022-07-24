@@ -1,6 +1,6 @@
 package com.bside.config.oauth.repository
 
-import com.bside.common.CookieUtil
+import com.bside.common.util.CookieUtil
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest
 import javax.servlet.http.HttpServletRequest

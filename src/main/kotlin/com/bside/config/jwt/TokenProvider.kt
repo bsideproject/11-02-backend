@@ -31,7 +31,7 @@ import java.util.stream.Collectors
  * author : jisun.noh
  */
 @Component
-class TokenProvider(@Value("\${jwt.secret}") secretKey: String) {
+class TokenProvider(@Value("\${spring.security.jwt.secret}") secretKey: String) {
 
     private val logger by logger()
 

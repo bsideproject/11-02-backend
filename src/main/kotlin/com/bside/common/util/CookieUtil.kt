@@ -1,4 +1,4 @@
-package com.bside.common
+package com.bside.common.util
 
 import org.springframework.util.SerializationUtils
 import java.util.*
