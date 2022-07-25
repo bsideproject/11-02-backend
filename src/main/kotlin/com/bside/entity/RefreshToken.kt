@@ -19,5 +19,5 @@ data class RefreshToken(
         @Field(name = "rt_key")
         val key: String = "",
         @Field(name = "rt_value")
-        val value: String = "",
+        var value: String = "",
 )

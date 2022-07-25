@@ -84,7 +84,7 @@ class AuthService(
         val authentication: Authentication = tokenProvider.getAuthentication(tokenRequestDto.accessToken)
 
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        val refreshToken: RefreshToken = refreshTokenRepository.findByKey(authentication.name)
+        val refreshToken: RefreshToken? = refreshTokenRepository.findByKey(authentication.name)
 
         if (refreshToken == null) {
             throw RuntimeException("로그아웃 된 사용자입니다.")
@@ -100,7 +100,8 @@ class AuthService(
 
         // 6. 저장소 정보 업데이트
         val newRefreshToken = RefreshToken(
-                key = refreshToken.key!!,
+                id = refreshToken.id,
+                key = refreshToken.key,
                 value = tokenDto.refreshToken!!
         )
         refreshTokenRepository.save(newRefreshToken)
