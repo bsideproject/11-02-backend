@@ -1,6 +1,6 @@
 package com.bside.controller
 
-import com.bside.dto.MemberResponseDto
+import com.bside.dto.response.MemberResponseDto
 import com.bside.service.MemberService
 import com.bside.util.logger
 

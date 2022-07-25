@@ -1,4 +1,4 @@
-package com.bside.dto
+package com.bside.dto.request
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 
