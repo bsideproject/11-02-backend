@@ -98,13 +98,8 @@ class AuthService(
         // 5. 새로운 토큰 생성
         val tokenDto: TokenResponseDto = tokenProvider.generateTokenDto(authentication, ProviderType.NAVER)
 
-        // 6. 저장소 정보 업데이트
-        val newRefreshToken = RefreshToken(
-                id = refreshToken.id,
-                key = refreshToken.key,
-                value = tokenDto.refreshToken!!
-        )
-        refreshTokenRepository.save(newRefreshToken)
+        refreshToken.value = tokenDto.refreshToken!!
+        refreshTokenRepository.save(refreshToken)
 
         // 토큰 발급
         return tokenDto
