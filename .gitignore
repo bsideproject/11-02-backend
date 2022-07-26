@@ -24,3 +24,10 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+application-local.yml
+application-dev.yml
+application-real.yml
+
+.gitignore
+logs/

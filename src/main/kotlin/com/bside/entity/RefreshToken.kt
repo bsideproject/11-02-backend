@@ -1,10 +1,10 @@
 package com.bside.entity
 
 import org.bson.types.ObjectId
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 
-import javax.persistence.Id
 
 
 /**
@@ -19,5 +19,5 @@ data class RefreshToken(
         @Field(name = "rt_key")
         val key: String = "",
         @Field(name = "rt_value")
-        val value: String = "",
+        var value: String = "",
 )
