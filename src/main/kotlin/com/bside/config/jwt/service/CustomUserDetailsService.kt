@@ -1,4 +1,4 @@
-package com.bside.service
+package com.bside.config.jwt.service
 
 import com.bside.entity.Member
 import com.bside.repository.MemberRepository

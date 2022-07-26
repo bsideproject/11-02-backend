@@ -1,4 +1,4 @@
-package com.bside.dto
+package com.bside.dto.response
 
 /**
  * name : MemberResponseDto
