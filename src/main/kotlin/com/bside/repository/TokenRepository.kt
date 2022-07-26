@@ -9,5 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
  * author : jisun.noh
  */
 interface TokenRepository : MongoRepository<RefreshToken, String> {
-    fun findByKey(key: String): RefreshToken
+    fun findByKey(key: String): RefreshToken?
 }
