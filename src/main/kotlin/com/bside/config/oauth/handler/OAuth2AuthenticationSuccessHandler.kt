@@ -58,9 +58,8 @@ class OAuth2AuthenticationSuccessHandler(
         // token 발행
         val tokenDto: TokenResponseDto = tokenProvider.generateTokenDto(authentication, providerType)
 
-        val refreshToken: RefreshToken =  tokenRepository.findByKey(authentication.name)?.apply {
-            this.value = tokenDto.refreshToken!!
-        }
+        val refreshToken: RefreshToken =  tokenRepository.findByKey(authentication.name)
+            ?.copy(value = tokenDto.refreshToken!!)
             ?: RefreshToken(
                 key = authentication.name,
                 value = tokenDto.refreshToken!!
