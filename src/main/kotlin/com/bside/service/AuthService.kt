@@ -4,11 +4,13 @@ import com.bside.entity.Member
 import com.bside.config.jwt.TokenProvider
 import com.bside.repository.TokenRepository
 import com.bside.common.type.Authority
+import com.bside.common.type.ErrorMessage
 import com.bside.common.type.ProviderType
 import com.bside.dto.request.MemberRequestDto
 import com.bside.dto.request.TokenRequestDto
 import com.bside.dto.response.TokenResponseDto
 import com.bside.entity.RefreshToken
+import com.bside.error.exception.AlreadyExistException
 import com.bside.repository.MemberRepository
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -34,7 +36,7 @@ class AuthService(
 
     fun signup(memberRequestDto: MemberRequestDto) {
         if (memberRepository.existsByEmail(memberRequestDto.email)) {
-            throw RuntimeException("이미 가입되어 있는 유저입니다")
+            throw AlreadyExistException(ErrorMessage.USER_ALREADY_EXIST.name, ErrorMessage.USER_ALREADY_EXIST.reason)
         }
 
         memberRepository.save(
