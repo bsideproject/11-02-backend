@@ -17,11 +17,7 @@ class LoginTestController {
     @GetMapping("/redirect")
     @ResponseBody
     fun loginOk(@RequestParam token: String?, @RequestParam error: String?): String {
-        return if(!token.isNullOrEmpty()){
-            "login_ok = ${token}"
-        } else {
-            "login_fail = ${error}"
-        }
+        return "login_ok"
     }
 
 

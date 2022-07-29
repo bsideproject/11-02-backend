@@ -6,6 +6,7 @@ import com.bside.config.jwt.TokenProvider
 import com.bside.dto.response.TokenResponseDto
 import com.bside.entity.RefreshToken
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
+import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.ACCESS_TOKEN
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.REDIRECT_URI_PARAM_COOKIE_NAME
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.REFRESH_TOKEN
 import com.bside.repository.TokenRepository
@@ -68,14 +69,24 @@ class OAuth2AuthenticationSuccessHandler(
         // RefreshToken 저장
         tokenRepository.save(refreshToken)
 
-        // cookie REFRESH_TOKEN 초기화
-        val cookieMaxAge: Int = TokenProvider.REFRESH_TOKEN_EXPIRE_TIME
-        CookieUtil.deleteCookie(request, response!!, REFRESH_TOKEN)
-        CookieUtil.addCookie(response!!, REFRESH_TOKEN, refreshToken.value, cookieMaxAge)
+        // cookie access_token , refresh_token set
+        setTokenCookie(request, response!!, tokenDto, refreshToken)
 
         return UriComponentsBuilder.fromUriString(targetUrl)
-            .queryParam("token", tokenDto.accessToken)
             .build().toUriString()
+    }
+
+    private fun setTokenCookie(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        tokenDto: TokenResponseDto,
+        refreshToken: RefreshToken
+    ) {
+        val cookieMaxAge: Int = TokenProvider.REFRESH_TOKEN_EXPIRE_TIME / 1000
+        CookieUtil.deleteCookie(request, response, ACCESS_TOKEN)
+        CookieUtil.addCookie(response, ACCESS_TOKEN, tokenDto.accessToken, cookieMaxAge)
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN)
+        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.value, cookieMaxAge)
     }
 
     protected fun clearAuthenticationAttributes(request: HttpServletRequest?, response: HttpServletResponse?) {

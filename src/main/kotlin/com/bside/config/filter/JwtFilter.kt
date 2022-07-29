@@ -1,5 +1,6 @@
 package com.bside.config.filter
 
+import com.bside.common.util.CookieUtil
 import com.bside.config.jwt.TokenProvider
 
 import org.springframework.security.core.Authentication
@@ -27,7 +28,8 @@ class JwtFilter(val tokenProvider: TokenProvider) : OncePerRequestFilter() {
         filterChain: FilterChain
     ) {
         // 1. Request Header에서 토큰 get
-        val jwt: String? = resolveToken(request)
+        //val jwt: String? = resolveToken(request) TODO 추후 header로 변경 예정
+        val jwt: String? = CookieUtil.getCookie(request, "access_token")?.value
 
         // 2. validateToken
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt!!)) {
