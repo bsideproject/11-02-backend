@@ -83,9 +83,7 @@ class OAuth2AuthenticationSuccessHandler(
         refreshToken: RefreshToken
     ) {
         val cookieMaxAge: Int = TokenProvider.REFRESH_TOKEN_EXPIRE_TIME / 1000
-        CookieUtil.deleteCookie(request, response, ACCESS_TOKEN)
         CookieUtil.addCookie(response, ACCESS_TOKEN, tokenDto.accessToken, cookieMaxAge)
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN)
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.value, cookieMaxAge)
     }
 
