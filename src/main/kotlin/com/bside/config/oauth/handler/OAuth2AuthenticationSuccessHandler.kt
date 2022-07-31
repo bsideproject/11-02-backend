@@ -71,7 +71,7 @@ class OAuth2AuthenticationSuccessHandler(
         tokenRepository.save(refreshToken)
 
         // cookie access_token , refresh_token set
-        setTokenCookie(request, response!!, tokenDto, refreshToken)
+        setTokenCookie(response!!, tokenDto, refreshToken)
 
         return UriComponentsBuilder.fromUriString(targetUrl)
             .build().toUriString()
