@@ -50,6 +50,7 @@ class CookieUtil {
                 .sameSite("None")
                 .httpOnly(false)
                 .maxAge(cookieMaxAge)
+                .domain("*.localhost")
                 .build()
 
             response.addHeader("Set-Cookie", cookie.toString())
