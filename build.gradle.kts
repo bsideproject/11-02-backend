@@ -45,6 +45,9 @@ dependencies {
 	//logback-slack
 	implementation("com.github.maricn:logback-slack-appender:1.4.0")
 
+	//aws
+	implementation("com.amazonaws:aws-java-sdk-s3:1.11.238")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
