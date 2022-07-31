@@ -10,6 +10,7 @@ import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookie
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.REDIRECT_URI_PARAM_COOKIE_NAME
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.REFRESH_TOKEN
 import com.bside.repository.TokenRepository
+import org.springframework.http.ResponseCookie
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
@@ -82,10 +83,12 @@ class OAuth2AuthenticationSuccessHandler(
         tokenDto: TokenResponseDto,
         refreshToken: RefreshToken
     ) {
-        val cookieMaxAge: Int = TokenProvider.REFRESH_TOKEN_EXPIRE_TIME / 1000
-        CookieUtil.addCookie(response, ACCESS_TOKEN, tokenDto.accessToken, cookieMaxAge)
-        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.value, cookieMaxAge)
+        val cookieMaxAge: Long = (TokenProvider.REFRESH_TOKEN_EXPIRE_TIME / 1000).toLong()
+        CookieUtil.addSecureCookie(response, cookieMaxAge, ACCESS_TOKEN, tokenDto.accessToken!!)
+        CookieUtil.addSecureCookie(response, cookieMaxAge, REFRESH_TOKEN, refreshToken.value)
     }
+
+
 
     protected fun clearAuthenticationAttributes(request: HttpServletRequest?, response: HttpServletResponse?) {
         super.clearAuthenticationAttributes(request)

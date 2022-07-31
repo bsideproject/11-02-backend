@@ -1,5 +1,8 @@
 package com.bside.common.util
 
+import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
+import com.bside.dto.response.TokenResponseDto
+import org.springframework.http.ResponseCookie
 import org.springframework.util.SerializationUtils
 import java.util.*
 import javax.servlet.http.Cookie
@@ -27,12 +30,31 @@ class CookieUtil {
             return null
         }
 
-        fun addCookie(response: HttpServletResponse, name: String?, value: String?, maxAge: Int) {
+        fun addCookie(response: HttpServletResponse, name: String, value: String, maxAge: Int) {
             val cookie = Cookie(name, value)
             cookie.path = "/"
             cookie.isHttpOnly = true
             cookie.maxAge = maxAge
+            cookie.secure = true
+            cookie.isHttpOnly = false
             response.addCookie(cookie)
+        }
+
+        fun addSecureCookie(
+            response: HttpServletResponse,
+            cookieMaxAge: Long,
+            key: String,
+            value: String
+        ) {
+            val cookie: ResponseCookie = ResponseCookie.from(key, value)
+                .path("/")
+                .secure(true)
+                .sameSite("None")
+                .httpOnly(false)
+                .maxAge(cookieMaxAge)
+                .build()
+
+            response.addHeader("Set-Cookie", cookie.toString())
         }
 
         fun deleteCookie(request: HttpServletRequest, response: HttpServletResponse, name: String) {
