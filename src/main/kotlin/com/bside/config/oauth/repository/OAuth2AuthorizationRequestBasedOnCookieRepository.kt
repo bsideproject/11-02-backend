@@ -28,9 +28,9 @@ class OAuth2AuthorizationRequestBasedOnCookieRepository: AuthorizationRequestRep
     ) {
         if (authorizationRequest == null) {
             CookieUtil.deleteCookie(request!!, response!!, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME)
-            CookieUtil.deleteCookie(request!!, response!!, REDIRECT_URI_PARAM_COOKIE_NAME)
-            CookieUtil.deleteCookie(request!!, response!!, REFRESH_TOKEN)
-            CookieUtil.deleteCookie(request!!, response!!, ACCESS_TOKEN)
+            CookieUtil.deleteCookie(request, response, REDIRECT_URI_PARAM_COOKIE_NAME)
+            CookieUtil.deleteCookie(request, response, REFRESH_TOKEN)
+            CookieUtil.deleteCookie(request, response, ACCESS_TOKEN)
             return
         }
 
