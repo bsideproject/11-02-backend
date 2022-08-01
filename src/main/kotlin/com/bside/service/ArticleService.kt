@@ -4,6 +4,7 @@ import com.bside.dto.response.ArticleResponseDto
 import com.bside.entity.Article
 import com.bside.repository.ArticleRepository
 import com.bside.util.logger
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
@@ -14,6 +15,8 @@ import java.util.*
 
 @Service
 class ArticleService(
+    @Value("\${naver.api.client}") val clientId: String,
+    @Value("\${naver.api.secret}") val secretKey: String,
     val articleRepository: ArticleRepository
 ) {
     private val logger by logger()
@@ -31,8 +34,8 @@ class ArticleService(
         val articleResponseDto = WebClient.create()
             .get()
             .uri(url)
-            .header("X-Naver-Client-Id", "4wIalQ1zZqjp0mxg5ogI")
-            .header("X-Naver-Client-Secret", "13X2_3LrKN")
+            .header("X-Naver-Client-Id", clientId)
+            .header("X-Naver-Client-Secret", secretKey)
             .retrieve()
             .onStatus(HttpStatus::isError) {t -> Mono.error(Exception(t.toString()))}
             .bodyToMono(ArticleResponseDto::class.java)
