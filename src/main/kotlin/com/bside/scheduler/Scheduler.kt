@@ -15,9 +15,11 @@ class Scheduler(
 
     private val logger by logger()
 
-    @Scheduled(cron = "0 0 14 * * *")
+    //@Scheduled(cron = "0 0 14 * * *")
+    @Scheduled(cron = "0 08 20 * * *")
     fun articleJob() {
         logger.info("articleJob start")
         articleService.scheduledArticle()
+        logger.info("articleJob end")
     }
 }
