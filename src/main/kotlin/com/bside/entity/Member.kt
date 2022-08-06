@@ -11,10 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Field
 
 import java.time.LocalDateTime
 
-/**
- * name : Member
- * author : jisun.noh
- */
 @Document
 data class Member(
         @Id
