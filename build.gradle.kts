@@ -20,6 +20,7 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("com.h2database:h2")
@@ -44,6 +45,9 @@ dependencies {
 
 	//logback-slack
 	implementation("com.github.maricn:logback-slack-appender:1.4.0")
+
+	//aws
+	implementation("com.amazonaws:aws-java-sdk-s3:1.11.238")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
