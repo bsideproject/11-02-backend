@@ -4,11 +4,11 @@ import com.bside.common.type.Authority
 import com.bside.config.jwt.JwtAccessDeniedHandler
 import com.bside.config.jwt.JwtAuthenticationEntryPoint
 import com.bside.config.jwt.TokenProvider
-import com.bside.config.oauth.handler.OAuth2AuthenticationFailureHandler
-import com.bside.config.oauth.handler.OAuth2AuthenticationSuccessHandler
-import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
-import com.bside.repository.TokenRepository
-import com.bside.config.oauth.service.CustomOAuth2UserService
+import com.bside.oauth.handler.OAuth2AuthenticationFailureHandler
+import com.bside.oauth.handler.OAuth2AuthenticationSuccessHandler
+import com.bside.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
+import com.bside.auth.repository.TokenRepository
+import com.bside.oauth.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
@@ -19,23 +19,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import java.util.*
 
-
-/**
- * name : SecurityConfig
- * author : jisun.noh
- */
 @EnableWebSecurity
 class SecurityConfig(
-    val tokenProvider: TokenProvider,
-    val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
-    val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
-    val oAuth2UserService: CustomOAuth2UserService,
-    val tokenRepository: TokenRepository
+        val tokenProvider: TokenProvider,
+        val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
+        val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
+        val oAuth2UserService: CustomOAuth2UserService,
+        val tokenRepository: TokenRepository
 ) : WebSecurityConfigurerAdapter() {
     @Bean
     fun passwordEncoder(): PasswordEncoder {

@@ -1,7 +1,5 @@
 package com.bside.common.util
 
-import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
-import com.bside.dto.response.TokenResponseDto
 import org.springframework.http.ResponseCookie
 import org.springframework.util.SerializationUtils
 import java.util.*
