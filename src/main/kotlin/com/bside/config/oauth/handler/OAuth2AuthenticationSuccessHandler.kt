@@ -6,9 +6,11 @@ import com.bside.config.jwt.TokenProvider
 import com.bside.dto.response.TokenResponseDto
 import com.bside.entity.RefreshToken
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository
+import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.ACCESS_TOKEN
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.REDIRECT_URI_PARAM_COOKIE_NAME
 import com.bside.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.Companion.REFRESH_TOKEN
 import com.bside.repository.TokenRepository
+import org.springframework.http.ResponseCookie
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
@@ -68,15 +70,26 @@ class OAuth2AuthenticationSuccessHandler(
         // RefreshToken 저장
         tokenRepository.save(refreshToken)
 
-        // cookie REFRESH_TOKEN 초기화
-        val cookieMaxAge: Int = TokenProvider.REFRESH_TOKEN_EXPIRE_TIME
-        CookieUtil.deleteCookie(request, response!!, REFRESH_TOKEN)
-        CookieUtil.addCookie(response!!, REFRESH_TOKEN, refreshToken.value, cookieMaxAge)
+        // cookie access_token , refresh_token set
+        setTokenCookie(response!!, tokenDto, refreshToken)
 
         return UriComponentsBuilder.fromUriString(targetUrl)
-            .queryParam("token", tokenDto.accessToken)
             .build().toUriString()
     }
+
+    private fun setTokenCookie(
+        response: HttpServletResponse,
+        tokenDto: TokenResponseDto,
+        refreshToken: RefreshToken
+    ) {
+        val cookieMaxAge: Long = (TokenProvider.REFRESH_TOKEN_EXPIRE_TIME / 1000).toLong()
+        CookieUtil.addSecureCookie(response, cookieMaxAge, ACCESS_TOKEN, tokenDto.accessToken!!)
+        CookieUtil.addSecureCookie(response, cookieMaxAge, REFRESH_TOKEN, refreshToken.value)
+        //CookieUtil.addCookie(response, ACCESS_TOKEN, tokenDto.accessToken!!, cookieMaxAge)
+        //CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.value, cookieMaxAge)
+    }
+
+
 
     protected fun clearAuthenticationAttributes(request: HttpServletRequest?, response: HttpServletResponse?) {
         super.clearAuthenticationAttributes(request)

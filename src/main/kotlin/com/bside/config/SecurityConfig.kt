@@ -42,19 +42,6 @@ class SecurityConfig(
         return BCryptPasswordEncoder()
     }
 
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource? {
-        val configuration = CorsConfiguration()
-        configuration.addAllowedOrigin("*")
-        configuration.allowedMethods = Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE")
-        configuration.addAllowedHeader("*")
-        configuration.allowCredentials = true
-        configuration.maxAge = 3600L
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
-    }
-
     override fun configure(web: WebSecurity?) {
         web!!.ignoring().antMatchers("/favicon.ico")
     }
