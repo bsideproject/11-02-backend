@@ -49,6 +49,9 @@ dependencies {
 	//aws
 	implementation("com.amazonaws:aws-java-sdk-s3:1.11.238")
 
+	//validation
+	implementation ("org.springframework.boot:spring-boot-starter-validation")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
