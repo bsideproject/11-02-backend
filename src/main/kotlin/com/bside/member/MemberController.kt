@@ -24,15 +24,4 @@ class MemberController(
     fun getEmail(@RequestParam email: String): MemberResponseDto {
         return memberService.getMemberInfo(email)
     }
-
-    // 슬랙 에러알람 확인을 위한 테스트 용도 입니다. 다음 개발시 삭제 예정입니다.
-    @GetMapping("/error")
-    fun makeError() {
-        try {
-            val v = 1 / 0
-        } catch (e: Exception) {
-            logger.error("error occurred", e)
-        }
-    }
-
 }
