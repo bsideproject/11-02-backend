@@ -11,6 +11,6 @@ class WebConfig: WebMvcConfigurer {
         registry.addMapping("/**")
             .exposedHeaders("X-AUTH_TOKEN")
             .allowCredentials(true)
-            .allowedOriginPatterns("*")
+            .allowedOriginPatterns("localhost:3000","localhost:8080", "175.45.194.10","175.106.97.109")
     }
 }
