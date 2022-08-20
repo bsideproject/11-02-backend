@@ -1,7 +1,8 @@
 package com.bside.crew
 
-import com.bside.common.dto.ApiResponseDto
-
+import com.bside.common.dto.request.CursorPageable
+import com.bside.common.dto.response.ApiResponseDto
+import com.bside.common.dto.response.PageDto
 import com.bside.crew.dto.request.CrewCreateRequest
 import com.bside.crew.dto.response.CrewResponse
 
@@ -33,8 +34,31 @@ class CrewController(val crewService: CrewService) {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping()
     fun save(@ApiIgnore @AuthenticationPrincipal principal: UserDetails, @Validated @RequestBody crewCreateRequest: CrewCreateRequest): ResponseEntity<CrewResponse> {
-        val userId = principal.username
-        val response = crewService.save(userId, crewCreateRequest)
+        val memberId = principal.username
+        val response = crewService.save(memberId, crewCreateRequest)
         return ApiResponseDto.created(response)
+    }
+
+    @ApiOperation(value = "CREW 조회 API")
+    @GetMapping()
+    fun findAll(cursorPageable: CursorPageable): ResponseEntity<PageDto<CrewResponse>> {
+        val response = crewService.findAll(cursorPageable)
+        return ApiResponseDto.ok(response)
+    }
+
+    @ApiOperation(value = "나의 CREW 조회 API")
+    @GetMapping("/my")
+    fun findAllByMemberId(@ApiIgnore @AuthenticationPrincipal principal: UserDetails): ResponseEntity<List<CrewResponse>> {
+        val memberId = principal.username
+        val response = crewService.findAllByMemberId(memberId)
+        return ApiResponseDto.ok(response)
+    }
+
+    @ApiOperation(value = "CREW 가입하기")
+    @PatchMapping("/{crewId}/join")
+    fun join(@ApiIgnore @AuthenticationPrincipal principal: UserDetails, @PathVariable crewId: String): ResponseEntity<CrewResponse> {
+        val memberId = principal.username
+        val response = crewService.join(crewId, memberId)
+        return ApiResponseDto.ok(response)
     }
 }

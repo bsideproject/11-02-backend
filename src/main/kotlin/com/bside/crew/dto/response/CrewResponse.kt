@@ -1,5 +1,7 @@
 package com.bside.crew.dto.response
 
+import com.bside.common.dto.request.CursorPageable
+import com.bside.common.dto.response.PageDto
 import com.bside.crew.entity.Crew
 
 data class CrewResponse(
@@ -28,5 +30,19 @@ data class CrewResponse(
                         mainImage = crew.mainImage,
                         location = crew.location
                 )
+
+        fun toPageDtoFromEntity(crewList: List<Crew>, cursorPageable: CursorPageable): PageDto<CrewResponse> {
+            val entities = crewList.map { fromEntity(it) }.toMutableList()
+            if (isMorePageData(crewList, cursorPageable.size)) {
+                entities.removeLast()
+                return PageDto(entities = entities, lastId = entities.lastOrNull()?.id.toString())
+            }
+
+            return PageDto(entities = entities)
+        }
+
+        private fun isMorePageData(crewList: List<Crew>, pageSize: Int): Boolean {
+            return crewList.isNotEmpty() && crewList.size == pageSize + 1
+        }
     }
 }

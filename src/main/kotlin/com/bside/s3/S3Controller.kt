@@ -1,6 +1,6 @@
 package com.bside.s3
 
-import com.bside.common.dto.ApiResponseDto
+import com.bside.common.dto.response.ApiResponseDto
 
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
