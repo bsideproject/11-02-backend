@@ -27,12 +27,8 @@ class  MemberRepositoryImpl : MemberRepositoryCustom {
 
 }
 
-/**
- * name : MemberRepository
- * author : jisun.noh
- */
 interface MemberRepository : MongoRepository<Member, String>, MemberRepositoryCustom {
     fun findByEmail(email: String): Member?
     fun existsByEmail(email: String): Boolean
-
+    fun existsByNickname(nickname: String): Boolean
 }
