@@ -32,8 +32,12 @@ class GlobalExceptionHandler {
     @ExceptionHandler(
             MethodArgumentNotValidException::class
     )
-    fun handleMethodArgumentNotValid(e: Exception): ResponseEntity<ErrorResponseDto>{
+    fun handleMethodArgumentNotValid(e: Exception): ResponseEntity<ErrorResponseDto> {
         logger.error(e.message, e)
+
+        if (e is MethodArgumentNotValidException) {
+            return ErrorResponseDto.error(HttpStatus.BAD_REQUEST, e.fieldError?.defaultMessage ?: "MethodArgumentNotValidException")
+        }
         return ErrorResponseDto.error(HttpStatus.BAD_REQUEST, e.message!!)
     }
 }
