@@ -1,4 +1,4 @@
-package com.bside.common.dto
+package com.bside.common.dto.response
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
