@@ -1,6 +1,8 @@
 package com.bside.common.util
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseCookie
+import org.springframework.stereotype.Component
 import org.springframework.util.SerializationUtils
 import java.util.*
 import javax.servlet.http.Cookie
@@ -8,14 +10,13 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 
-
-
-
-
-
-class CookieUtil {
+class CookieUtil() {
 
     companion object {
+
+        @Value("\${web.domain}")
+        private lateinit var domain: String
+
         fun getCookie(request: HttpServletRequest, name: String): Cookie? {
             val cookies: Array<Cookie>? = request.cookies
             if (cookies != null && cookies.isNotEmpty()) {
@@ -48,7 +49,7 @@ class CookieUtil {
                 .sameSite("None")
                 .httpOnly(false)
                 .maxAge(cookieMaxAge)
-                .domain("localhost")
+                .domain(domain)
                 .build()
 
             response.addHeader("Set-Cookie", cookie.toString())
