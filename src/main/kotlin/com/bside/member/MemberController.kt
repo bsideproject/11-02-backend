@@ -1,10 +1,9 @@
 package com.bside.member
 
-import com.bside.common.dto.ApiResponseDto
+import com.bside.common.dto.response.ApiResponseDto
 import com.bside.member.dto.request.MemberModifyRequest
 import com.bside.member.dto.response.MemberModifyResponse
 import com.bside.member.dto.response.MemberResponseDto
-import com.bside.member.entity.Member
 import com.bside.util.logger
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
