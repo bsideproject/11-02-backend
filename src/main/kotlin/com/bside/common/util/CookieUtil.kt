@@ -38,7 +38,6 @@ class CookieUtil() {
             cookie.path = "/"
             cookie.isHttpOnly = true
             cookie.maxAge = maxAge
-            cookie.domain = "localhost"
             response.addCookie(cookie)
         }
 
