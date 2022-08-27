@@ -30,7 +30,6 @@ class CookieUtil() {
             cookie.path = "/"
             cookie.isHttpOnly = true
             cookie.maxAge = maxAge
-            cookie.domain = "localhost"
             response.addCookie(cookie)
         }
 
@@ -43,6 +42,7 @@ class CookieUtil() {
             val cookie: ResponseCookie = ResponseCookie.from(key, value)
                 .path("/")
                 .maxAge(cookieMaxAge)
+                .domain("localhost")
                 .build()
             response.addHeader("Set-Cookie", cookie.toString())
         }
