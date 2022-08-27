@@ -33,6 +33,15 @@ class CookieUtil() {
             response.addCookie(cookie)
         }
 
+        fun addLocalCookie(response: HttpServletResponse, name: String?, value: String?, maxAge: Int) {
+            val cookie = Cookie(name, value)
+            cookie.path = "/"
+            cookie.isHttpOnly = true
+            cookie.maxAge = maxAge
+            cookie.domain = "localhost"
+            response.addCookie(cookie)
+        }
+
         fun addSecureCookie(
             response: HttpServletResponse,
             cookieMaxAge: Long,
