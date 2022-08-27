@@ -9,13 +9,9 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-
 class CookieUtil() {
 
     companion object {
-
-        @Value("\${web.domain}")
-        private lateinit var domain: String
 
         fun getCookie(request: HttpServletRequest, name: String): Cookie? {
             val cookies: Array<Cookie>? = request.cookies
@@ -45,13 +41,11 @@ class CookieUtil() {
         ) {
             val cookie: ResponseCookie = ResponseCookie.from(key, value)
                 .path("/")
-                .secure(true)
                 .sameSite("None")
                 .httpOnly(false)
                 .maxAge(cookieMaxAge)
-                .domain(domain)
+                .domain("175.45.194.10")
                 .build()
-
             response.addHeader("Set-Cookie", cookie.toString())
         }
 
