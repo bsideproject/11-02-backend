@@ -42,10 +42,8 @@ class CookieUtil() {
         ) {
             val cookie: ResponseCookie = ResponseCookie.from(key, value)
                 .path("/")
-                .sameSite("None")
-                .httpOnly(false)
                 .maxAge(cookieMaxAge)
-                .domain("175.45.194.10")
+                .domain("localhost")
                 .build()
             response.addHeader("Set-Cookie", cookie.toString())
         }
