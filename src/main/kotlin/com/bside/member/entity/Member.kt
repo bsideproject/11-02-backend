@@ -3,6 +3,7 @@ package com.bside.member.entity
 import com.bside.common.type.Authority
 import com.bside.common.type.ProviderType
 import com.bside.config.oauth.OAuth2UserInfo
+import com.bside.member.type.Gender
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
@@ -19,8 +20,12 @@ data class Member(
         val email: String = "",
         val password: String = "",
         var name: String = "",
+        var nickname: String? = "",
         val authority: Authority = Authority.ROLE_USER,
         val providerType: ProviderType,
+        var profile: String? = "",
+        var gender: Gender? = null,
+        var birthday: String? = null,
         val createdDate: LocalDateTime = LocalDateTime.now(),
         var modifiedDate: LocalDateTime = LocalDateTime.now()
 ) {
