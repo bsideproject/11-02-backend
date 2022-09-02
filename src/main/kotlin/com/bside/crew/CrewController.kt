@@ -64,7 +64,7 @@ class CrewController(val crewService: CrewService) {
 
     @ApiOperation(value = "특정 CREW 조회 API")
     @GetMapping("/{crewId}/info")
-    fun findAllByMemberId(@PathVariable crewId: String): ResponseEntity<CrewResponse> {
+    fun findOneById(@PathVariable crewId: String): ResponseEntity<CrewResponse> {
         val response = crewService.findOneById(crewId)
         return ApiResponseDto.ok(response)
     }
