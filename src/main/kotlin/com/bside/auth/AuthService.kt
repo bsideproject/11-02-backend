@@ -11,7 +11,7 @@ import com.bside.auth.dto.request.TokenRequestDto
 import com.bside.auth.dto.response.TokenResponseDto
 import com.bside.auth.entity.RefreshToken
 import com.bside.error.exception.AlreadyExistException
-import com.bside.repository.MemberRepository
+import com.bside.member.repository.MemberRepository
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
