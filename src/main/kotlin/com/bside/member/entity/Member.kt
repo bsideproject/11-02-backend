@@ -26,6 +26,7 @@ data class Member(
         var profile: String? = "",
         var gender: Gender? = null,
         var birthday: String? = null,
+        var score: Int? = null,
         val createdDate: LocalDateTime = LocalDateTime.now(),
         var modifiedDate: LocalDateTime = LocalDateTime.now()
 ) {

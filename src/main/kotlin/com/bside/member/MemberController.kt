@@ -24,10 +24,46 @@ class MemberController(
 ) {
     private val logger by logger()
 
-    // 조회 api 추후 변경 예정
-    @GetMapping("email")
-    fun getEmail(@RequestParam email: String): MemberResponseDto {
-        return memberService.getMemberInfo(email)
+
+    @ApiOperation(value = "Member 조회 API")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "멤버 조회 성공",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = MemberResponseDto::class)
+                )]
+            )
+        ]
+    )
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping
+    fun getEmail(@ApiIgnore @AuthenticationPrincipal principal: UserDetails): ResponseEntity<MemberResponseDto> {
+        val userId = principal.username
+        val response = memberService.getMemberInfo(userId)
+        return ApiResponseDto.ok(response)
+    }
+
+    @ApiOperation(value = "Member 닉네임 체크 API")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "닉네임 체크",
+                content = [Content(
+                    mediaType = "application/json",
+                    schema = Schema(implementation = String::class)
+                )]
+            )
+        ]
+    )
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/nickname-check")
+    fun checkNickname(@RequestParam nickname: String): ResponseEntity<String> {
+        val response = memberService.checkNickname(nickname)
+        return ApiResponseDto.ok(response)
     }
 
 
