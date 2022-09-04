@@ -5,13 +5,13 @@ import com.bside.error.exception.AlreadyExistException
 import com.bside.error.exception.NotExistException
 import com.bside.member.dto.request.MemberModifyRequest
 import com.bside.member.dto.response.MemberModifyResponse
-import com.bside.member.dto.response.MemberResponseDto
+import com.bside.member.dto.response.MemberResponse
 import com.bside.member.entity.Member
-import com.bside.repository.MemberRepository
+import com.bside.member.repository.MemberRepository
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.io.InvalidObjectException
+
 
 
 @Service
@@ -19,10 +19,8 @@ import java.io.InvalidObjectException
 class MemberService(
     val memberRepository: MemberRepository
 ) {
-    fun getMemberInfo(email: String): MemberResponseDto {
-        return MemberResponseDto().apply {
-            this.email = memberRepository.findByEmail(email)!!.email
-        }
+    fun getMemberInfo(email: String): MemberResponse {
+        return MemberResponse(email = memberRepository.findByEmail(email)!!.email)
     }
 
     fun modify(userId: String, memberModifyRequest: MemberModifyRequest): MemberModifyResponse {

@@ -6,7 +6,7 @@ import com.bside.oauth.exception.OAuthProviderMissMatchException
 import com.bside.oauth.info.Oauth2UserInfoFactory.Companion.getOAuth2UserInfo
 import com.bside.member.entity.Member
 import com.bside.oauth.info.UserPrincipal
-import com.bside.repository.MemberRepository
+import com.bside.member.repository.MemberRepository
 import org.springframework.security.authentication.InternalAuthenticationServiceException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService

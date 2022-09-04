@@ -5,4 +5,5 @@ import com.bside.feedImage.entity.FeedImage
 import org.springframework.data.mongodb.repository.MongoRepository
 
 interface FeedImageRepository: MongoRepository<FeedImage, String> {
+    fun findByCrewId(crewId: String): List<FeedImage>
 }

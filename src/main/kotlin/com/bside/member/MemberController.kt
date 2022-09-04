@@ -3,7 +3,6 @@ package com.bside.member
 import com.bside.common.dto.response.ApiResponseDto
 import com.bside.member.dto.request.MemberModifyRequest
 import com.bside.member.dto.response.MemberModifyResponse
-import com.bside.member.dto.response.MemberResponseDto
 import com.bside.util.logger
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -23,13 +22,6 @@ class MemberController(
     val memberService: MemberService
 ) {
     private val logger by logger()
-
-    // 조회 api 추후 변경 예정
-    @GetMapping("email")
-    fun getEmail(@RequestParam email: String): MemberResponseDto {
-        return memberService.getMemberInfo(email)
-    }
-
 
     @ApiOperation(value = "Member 수정 API")
     @ApiResponses(

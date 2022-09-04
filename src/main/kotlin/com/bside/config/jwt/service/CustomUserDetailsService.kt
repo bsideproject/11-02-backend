@@ -1,7 +1,7 @@
 package com.bside.config.jwt.service
 
 import com.bside.member.entity.Member
-import com.bside.repository.MemberRepository
+import com.bside.member.repository.MemberRepository
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
