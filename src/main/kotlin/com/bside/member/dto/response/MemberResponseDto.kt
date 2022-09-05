@@ -1,8 +1,8 @@
 package com.bside.member.dto.response
 
-import com.bside.common.type.Authority
 import com.bside.member.entity.Member
 import com.bside.member.type.Gender
+import com.bside.common.type.Authority
 
 /**
  * name : MemberResponseDto
