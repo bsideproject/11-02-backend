@@ -9,7 +9,6 @@ class WebConfig: WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            //.exposedHeaders("X-AUTH_TOKEN")
             .allowCredentials(true)
             .allowedMethods("*")
             .allowedOriginPatterns("*")

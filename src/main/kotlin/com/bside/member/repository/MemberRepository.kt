@@ -1,4 +1,4 @@
-package com.bside.repository
+package com.bside.member.repository
 
 import com.bside.member.entity.Member
 
@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.data.mongodb.core.query.Criteria.where
+import org.springframework.data.mongodb.repository.Query as RQuery
 
 /**
  * deleteByEmail 는 임시 코드입니다.
@@ -31,4 +32,7 @@ interface MemberRepository : MongoRepository<Member, String>, MemberRepositoryCu
     fun findByEmail(email: String): Member?
     fun existsByEmail(email: String): Boolean
     fun existsByNickname(nickname: String): Boolean
+
+    @RQuery(value = "{ '_id' : {\$in : ?0 }}")
+    fun findByIds(ids: List<String>): List<Member>
 }

@@ -2,26 +2,27 @@ package com.bside.member.dto.response
 
 import com.bside.member.entity.Member
 import com.bside.member.type.Gender
+import com.bside.common.type.Authority
 
-
-data class MemberResponseDto (
-    val email: String,
-    val name: String,
-    val nickname: String?,
-    val birthday: String?,
-    val gender: Gender?,
-    var profile: String? = null,
-    var score: Int? = 0
+/**
+ * name : MemberResponseDto
+ * author : jisun.noh
+ */
+data class MemberResponse(
+        val id: String = "",
+        val email: String = "",
+        val password: String = "",
+        val name: String = "",
+        val nickname: String? = "",
+        val authority: Authority = Authority.ROLE_USER,
+        val profile: String? = "",
+        val gender: Gender? = null,
+        val birthday: String? = null,
+        val isLeader: Boolean = false
 ) {
+
     companion object {
-        fun fromEntity(member: Member) = MemberResponseDto(
-            member.email,
-            member.name,
-            member.nickname,
-            member.birthday,
-            member.gender,
-            member.profile,
-            member.score
-        )
+        fun fromEntity(member: Member) = MemberResponse(id = member.id.toString(), name = member.name, nickname = member.nickname, profile = member.profile)
     }
+
 }

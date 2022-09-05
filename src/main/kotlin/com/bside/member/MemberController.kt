@@ -3,7 +3,7 @@ package com.bside.member
 import com.bside.common.dto.response.ApiResponseDto
 import com.bside.member.dto.request.MemberModifyRequest
 import com.bside.member.dto.response.MemberModifyResponse
-import com.bside.member.dto.response.MemberResponseDto
+import com.bside.member.dto.response.MemberResponse
 import com.bside.util.logger
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -33,14 +33,14 @@ class MemberController(
                 description = "멤버 조회 성공",
                 content = [Content(
                     mediaType = "application/json",
-                    schema = Schema(implementation = MemberResponseDto::class)
+                    schema = Schema(implementation = MemberResponse::class)
                 )]
             )
         ]
     )
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping
-    fun getEmail(@ApiIgnore @AuthenticationPrincipal principal: UserDetails): ResponseEntity<MemberResponseDto> {
+    fun getEmail(@ApiIgnore @AuthenticationPrincipal principal: UserDetails): ResponseEntity<MemberResponse> {
         val userId = principal.username
         val response = memberService.getMemberInfo(userId)
         return ApiResponseDto.ok(response)

@@ -1,5 +1,6 @@
 package com.bside.crew
 
+import com.bside.activity.reposittory.ActivityRepository
 import com.bside.common.dto.request.CursorPageable
 import com.bside.common.dto.response.PageDto
 import com.bside.common.type.ErrorMessage
@@ -9,7 +10,8 @@ import com.bside.crew.entity.Crew
 import com.bside.crew.reposittory.CrewRepository
 import com.bside.error.exception.AlreadyExistException
 import com.bside.error.exception.NotExistException
-
+import com.bside.feedImage.repository.FeedImageRepository
+import com.bside.member.repository.MemberRepository
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +20,12 @@ import java.time.LocalDateTime
 
 
 @Service
-class CrewService(val crewRepository: CrewRepository) {
+class CrewService(
+        val crewRepository: CrewRepository,
+        val memberRepository: MemberRepository,
+        val activityRepository: ActivityRepository,
+        val feedImageRepository: FeedImageRepository
+) {
     @Transactional(readOnly = true)
     fun findAll(cursorPageable: CursorPageable): PageDto<CrewResponse> {
         val crewList = crewRepository.findAll(cursorPageable)
@@ -75,4 +82,24 @@ class CrewService(val crewRepository: CrewRepository) {
                 ))
         return CrewResponse.fromEntity(updatedCrew)
     }
+
+    @Transactional
+    fun findOneById(crewId: String): CrewResponse {
+        val crew = crewRepository
+                .findById(crewId)
+                .orElseThrow { throw NotExistException(ErrorMessage.CREW_NOT_EXIST.name, ErrorMessage.CREW_NOT_EXIST.reason) }
+        val activities = activityRepository.findByCrewId(crewId)
+                .filter { LocalDateTime.now() <= it.startAt }
+        val feedImages = feedImageRepository.findByCrewId(crewId)
+        val members = memberRepository.findByIds(
+                crew.memberIds.map { it.toString() }
+        )
+
+        return CrewResponse.fromEntity(
+                crew = crew,
+                activities = activities,
+                feeds = feedImages,
+                members = members)
+    }
+
 }

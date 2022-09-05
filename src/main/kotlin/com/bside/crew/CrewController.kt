@@ -61,4 +61,11 @@ class CrewController(val crewService: CrewService) {
         val response = crewService.join(crewId, memberId)
         return ApiResponseDto.ok(response)
     }
+
+    @ApiOperation(value = "특정 CREW 조회 API")
+    @GetMapping("/{crewId}/info")
+    fun findOneById(@PathVariable crewId: String): ResponseEntity<CrewResponse> {
+        val response = crewService.findOneById(crewId)
+        return ApiResponseDto.ok(response)
+    }
 }
